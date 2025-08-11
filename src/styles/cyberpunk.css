@@ -1,0 +1,491 @@
+/* SongDNA Search - Cyberpunk Theme Variations */
+
+/* Theme Variables */
+.theme-cyberpunk {
+  --cyber-primary: #00ffff;
+  --cyber-secondary: #ff00ff;
+  --cyber-accent: #00ff00;
+  --cyber-warning: #ffff00;
+  --cyber-danger: #ff0040;
+}
+
+.theme-terminal {
+  --cyber-primary: #00ff00;
+  --cyber-secondary: #ffff00;
+  --cyber-accent: #ffffff;
+  --cyber-warning: #ff8800;
+  --cyber-danger: #ff0000;
+}
+
+.theme-synthwave {
+  --cyber-primary: #ff006e;
+  --cyber-secondary: #8338ec;
+  --cyber-accent: #3a86ff;
+  --cyber-warning: #ffbe0b;
+  --cyber-danger: #fb5607;
+}
+
+.theme-ice {
+  --cyber-primary: #a8dadc;
+  --cyber-secondary: #457b9d;
+  --cyber-accent: #1d3557;
+  --cyber-warning: #f1faee;
+  --cyber-danger: #e63946;
+}
+
+/* Enhanced Cyberpunk Effects */
+
+/* Neon Text Effect */
+.neon-text {
+  color: var(--cyber-primary);
+  text-shadow: 
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 40px currentColor;
+  animation: neonFlicker 2s ease-in-out infinite alternate;
+}
+
+@keyframes neonFlicker {
+  0%, 100% {
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 40px currentColor;
+  }
+  50% {
+    text-shadow: 
+      0 0 2px currentColor,
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 20px currentColor;
+  }
+}
+
+/* Holographic Effect */
+.holographic {
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  background-size: 200% 200%;
+  animation: holographicShine 3s ease-in-out infinite;
+}
+
+@keyframes holographicShine {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* Matrix Rain Effect */
+.matrix-rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.matrix-rain::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  right: 0;
+  height: 200%;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 98px,
+      rgba(0, 255, 0, 0.03) 100px,
+      rgba(0, 255, 0, 0.03) 102px,
+      transparent 104px
+    );
+  animation: matrixFall 10s linear infinite;
+}
+
+@keyframes matrixFall {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* Circuit Board Background */
+.circuit-board {
+  position: relative;
+  overflow: hidden;
+}
+
+.circuit-board::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, var(--cyber-primary) 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, var(--cyber-secondary) 2px, transparent 2px),
+    linear-gradient(45deg, transparent 40%, rgba(0, 255, 255, 0.1) 50%, transparent 60%);
+  background-size: 40px 40px, 40px 40px, 100px 100px;
+  opacity: 0.1;
+  animation: circuitPulse 4s ease-in-out infinite;
+}
+
+@keyframes circuitPulse {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.2; }
+}
+
+/* Glitch Effect */
+.glitch {
+  position: relative;
+  color: var(--cyber-primary);
+  animation: glitchSkew 1s ease-in-out infinite;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  animation: glitchTop 1s linear infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+.glitch::after {
+  animation: glitchBottom 1.5s linear infinite;
+  clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+  -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+}
+
+@keyframes glitchTop {
+  2%, 64% { transform: translate(2px, -2px); }
+  4%, 60% { transform: translate(-2px, 2px); }
+  62% { transform: translate(13px, -1px) skew(-13deg); }
+}
+
+@keyframes glitchBottom {
+  2%, 64% { transform: translate(-2px, 0); }
+  4%, 60% { transform: translate(-2px, 0); }
+  62% { transform: translate(-22px, 5px) skew(21deg); }
+}
+
+@keyframes glitchSkew {
+  2%, 64% { transform: skew(0deg); }
+  4%, 60% { transform: skew(-1deg); }
+  62% { transform: skew(0deg); }
+}
+
+/* Scan Lines */
+.scan-lines {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-lines::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 255, 255, 0.1) 2px,
+      rgba(0, 255, 255, 0.1) 4px
+    );
+  pointer-events: none;
+  animation: scanLinesMove 2s linear infinite;
+}
+
+@keyframes scanLinesMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+/* Energy Orb */
+.energy-orb {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--cyber-primary), transparent);
+  position: relative;
+  animation: energyPulse 2s ease-in-out infinite;
+}
+
+.energy-orb::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, transparent 60%, var(--cyber-primary));
+  animation: energyRing 3s linear infinite;
+}
+
+@keyframes energyPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+@keyframes energyRing {
+  0% { transform: rotate(0deg) scale(1); opacity: 0.5; }
+  100% { transform: rotate(360deg) scale(1.5); opacity: 0; }
+}
+
+/* Data Stream */
+.data-stream-text {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--cyber-accent);
+  opacity: 0.3;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: dataScroll 8s linear infinite;
+}
+
+@keyframes dataScroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Cyber Grid */
+.cyber-grid {
+  background-image: 
+    linear-gradient(var(--cyber-primary) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cyber-primary) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.1;
+  animation: gridShift 10s linear infinite;
+}
+
+@keyframes gridShift {
+  0% { background-position: 0 0; }
+  100% { background-position: 20px 20px; }
+}
+
+/* Hologram Flicker */
+.hologram-flicker {
+  animation: hologramFlicker 0.1s ease-in-out infinite;
+}
+
+@keyframes hologramFlicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+  25%, 75% { opacity: 0.9; }
+}
+
+/* Particle Effect */
+.particle-field {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--cyber-primary);
+  border-radius: 50%;
+  animation: particleFloat 10s linear infinite;
+}
+
+.particle:nth-child(odd) {
+  background: var(--cyber-secondary);
+  animation-duration: 15s;
+}
+
+.particle:nth-child(3n) {
+  background: var(--cyber-accent);
+  animation-duration: 12s;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(100px);
+    opacity: 0;
+  }
+}
+
+/* Loading Hexagon */
+.hex-loader {
+  width: 60px;
+  height: 60px;
+  position: relative;
+}
+
+.hex-loader::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--cyber-primary);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  animation: hexSpin 2s linear infinite;
+}
+
+@keyframes hexSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Neural Network Visualization */
+.neural-network {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.neural-node {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--cyber-primary);
+  border-radius: 50%;
+  animation: neuralPulse 3s ease-in-out infinite;
+}
+
+.neural-connection {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyber-primary), transparent);
+  animation: neuralFlow 2s ease-in-out infinite;
+}
+
+@keyframes neuralFlow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Status Indicators */
+.status-online {
+  color: var(--cyber-accent);
+  animation: statusBlink 2s ease-in-out infinite;
+}
+
+.status-processing {
+  color: var(--cyber-warning);
+  animation: statusBlink 1s ease-in-out infinite;
+}
+
+.status-error {
+  color: var(--cyber-danger);
+  animation: statusBlink 0.5s ease-in-out infinite;
+}
+
+@keyframes statusBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Cyber Button Enhanced States */
+.cyber-button.loading {
+  pointer-events: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-button.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: buttonLoading 1.5s linear infinite;
+}
+
+@keyframes buttonLoading {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Waveform Container */
+.waveform-container {
+  position: relative;
+  background: var(--bg-glass);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--cyber-primary);
+}
+
+.waveform-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.05), transparent);
+  pointer-events: none;
+}
+
+/* Responsive Cyberpunk Effects */
+@media (max-width: 768px) {
+  .neon-text {
+    text-shadow: 
+      0 0 3px currentColor,
+      0 0 6px currentColor,
+      0 0 12px currentColor;
+  }
+  
+  .particle {
+    display: none; /* Hide particles on mobile for performance */
+  }
+  
+  .matrix-rain::before {
+    opacity: 0.5; /* Reduce matrix effect on mobile */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-text,
+  .holographic,
+  .glitch,
+  .scan-lines::after,
+  .energy-orb,
+  .particle,
+  .neural-node,
+  .neural-connection {
+    animation: none;
+  }
+}

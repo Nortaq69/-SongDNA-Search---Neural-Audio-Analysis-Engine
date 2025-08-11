@@ -1,0 +1,17 @@
+librosa==0.10.1
+numpy==1.24.3
+scipy==1.11.1
+flask==2.3.2
+flask-socketio==5.3.4
+soundfile==0.12.1
+matplotlib==3.7.1
+scikit-learn==1.3.0
+requests==2.31.0
+spotipy==2.22.1
+python-dotenv==1.0.0
+mutagen==1.46.0
+fastdtw==0.3.4
+pydub==0.25.1
+chromadb==0.4.8
+faiss-cpu==1.7.4
+joblib==1.3.1

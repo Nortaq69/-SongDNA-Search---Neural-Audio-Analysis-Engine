@@ -1,0 +1,20 @@
+# SongDNA Search - Environment Variables
+# Copy this file to .env and add your actual API keys
+
+# Spotify API Configuration
+# Get these from: https://developer.spotify.com/dashboard/applications
+SPOTIFY_CLIENT_ID=your_spotify_client_id_here
+SPOTIFY_CLIENT_SECRET=your_spotify_client_secret_here
+
+# ACRCloud API Configuration  
+# Register at: https://www.acrcloud.com/
+ACRCLOUD_ACCESS_KEY=your_acrcloud_access_key_here
+ACRCLOUD_ACCESS_SECRET=your_acrcloud_access_secret_here
+
+# To use Spotify API:
+# 1. Go to https://developer.spotify.com/dashboard/applications
+# 2. Create a new app
+# 3. Copy Client ID and Client Secret
+# 4. Replace the values above
+# 5. Rename this file to .env
+

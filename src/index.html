@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SongDNA Search - Neural Audio Analysis</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/cyberpunk.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Custom Title Bar -->
+    <div class="title-bar">
+        <div class="title-bar-left">
+            <div class="app-icon"></div>
+            <span class="app-title">SongDNA Search</span>
+            <span class="app-subtitle">Neural Audio Analysis</span>
+        </div>
+        <div class="title-bar-right">
+            <button class="title-btn minimize-btn" id="minimizeBtn">−</button>
+            <button class="title-btn maximize-btn" id="maximizeBtn">□</button>
+            <button class="title-btn close-btn" id="closeBtn">×</button>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div class="app-container">
+        <!-- Animated Background -->
+        <div class="cyber-background">
+            <div class="circuit-lines"></div>
+            <div class="data-stream"></div>
+            <canvas id="particleCanvas"></canvas>
+        </div>
+
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="neural-logo">
+                    <div class="neural-pulse"></div>
+                    <span>DNA</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-section="analyzer">
+                    <span class="nav-icon">🧬</span>
+                    <span class="nav-text">Audio Analyzer</span>
+                </button>
+                <button class="nav-item" data-section="library">
+                    <span class="nav-icon">📚</span>
+                    <span class="nav-text">Music Library</span>
+                </button>
+                <button class="nav-item" data-section="results">
+                    <span class="nav-icon">🎯</span>
+                    <span class="nav-text">Search Results</span>
+                </button>
+                <button class="nav-item" data-section="history">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Match History</span>
+                </button>
+                <button class="nav-item" data-section="settings">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Settings</span>
+                </button>
+            </nav>
+
+            <!-- System Status -->
+            <div class="system-status">
+                <div class="status-item">
+                    <span class="status-label">CPU</span>
+                    <div class="status-bar">
+                        <div class="status-fill" style="width: 35%"></div>
+                    </div>
+                    <span class="status-value">35%</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Neural Net</span>
+                    <div class="status-indicator online"></div>
+                    <span class="status-value">ONLINE</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Audio Analyzer Section -->
+            <section id="analyzer-section" class="content-section active">
+                <div class="section-header">
+                    <h2 class="section-title">Neural Audio Analyzer</h2>
+                    <div class="section-subtitle">Drop audio files to extract DNA fingerprints</div>
+                </div>
+
+                <!-- Drop Zone -->
+                <div class="drop-zone" id="dropZone">
+                    <div class="drop-zone-content">
+                        <div class="drop-icon">
+                            <div class="pulse-ring"></div>
+                            <span>🎵</span>
+                        </div>
+                        <h3>Drop Audio File Here</h3>
+                        <p>Supports MP3, WAV, FLAC, M4A, AAC, OGG</p>
+                        <button class="cyber-button primary" id="selectFileBtn">
+                            <span>Select File</span>
+                            <div class="button-glow"></div>
+                        </button>
+                    </div>
+                    <div class="drop-zone-overlay"></div>
+                </div>
+
+                <!-- Audio Visualization -->
+                <div class="audio-viz-container" id="audioVizContainer" style="display: none;">
+                    <div class="viz-header">
+                        <h4>Audio Waveform</h4>
+                        <div class="audio-controls">
+                            <button class="control-btn" id="playPauseBtn">▶️</button>
+                            <button class="control-btn" id="stopBtn">⏹️</button>
+                            <div class="volume-control">
+                                <span>🔊</span>
+                                <input type="range" class="volume-slider" min="0" max="100" value="50">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="waveform"></div>
+                    
+                    <!-- Audio Analysis Display -->
+                    <div class="analysis-grid">
+                        <div class="analysis-card">
+                            <h5>Spectral Features</h5>
+                            <canvas id="spectrogramCanvas"></canvas>
+                        </div>
+                        <div class="analysis-card">
+                            <h5>MFCC Coefficients</h5>
+                            <canvas id="mfccCanvas"></canvas>
+                        </div>
+                        <div class="analysis-card">
+                            <h5>Chroma Features</h5>
+                            <canvas id="chromaCanvas"></canvas>
+                        </div>
+                        <div class="analysis-card">
+                            <h5>Beat Structure</h5>
+                            <div class="beat-analysis">
+                                <div class="beat-metric">
+                                    <span class="metric-label">BPM</span>
+                                    <span class="metric-value" id="bpmValue">---</span>
+                                </div>
+                                <div class="beat-metric">
+                                    <span class="metric-label">Key</span>
+                                    <span class="metric-value" id="keyValue">---</span>
+                                </div>
+                                <div class="beat-metric">
+                                    <span class="metric-label">Energy</span>
+                                    <span class="metric-value" id="energyValue">---</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search Controls -->
+                    <div class="search-controls">
+                        <button class="cyber-button success" id="searchSimilarBtn">
+                            <span>🔍 Find Similar Songs</span>
+                            <div class="button-glow"></div>
+                        </button>
+                        <button class="cyber-button secondary" id="addToLibraryBtn">
+                            <span>📁 Add to Library</span>
+                            <div class="button-glow"></div>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Music Library Section -->
+            <section id="library-section" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Music Library Index</h2>
+                    <div class="section-subtitle">Manage your local music collection</div>
+                </div>
+
+                <div class="library-controls">
+                    <button class="cyber-button primary" id="scanLibraryBtn">
+                        <span>📂 Scan Folder</span>
+                        <div class="button-glow"></div>
+                    </button>
+                    <button class="cyber-button secondary" id="refreshLibraryBtn">
+                        <span>🔄 Refresh Index</span>
+                        <div class="button-glow"></div>
+                    </button>
+                    <div class="library-stats">
+                        <span class="stat-item">Songs: <span id="songCount">0</span></span>
+                        <span class="stat-item">Indexed: <span id="indexedCount">0</span></span>
+                        <span class="stat-item">Size: <span id="librarySize">0 MB</span></span>
+                    </div>
+                </div>
+
+                <div class="library-grid" id="libraryGrid">
+                    <!-- Library items will be populated here -->
+                </div>
+            </section>
+
+            <!-- Search Results Section -->
+            <section id="results-section" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Similarity Results</h2>
+                    <div class="section-subtitle">Neural network matches based on audio DNA</div>
+                </div>
+
+                <div class="results-container" id="resultsContainer">
+                    <div class="no-results">
+                        <div class="no-results-icon">🎯</div>
+                        <h3>No search results yet</h3>
+                        <p>Analyze an audio file to find similar songs</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Match History Section -->
+            <section id="history-section" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Match History</h2>
+                    <div class="section-subtitle">Previous audio analysis sessions</div>
+                </div>
+
+                <div class="history-container" id="historyContainer">
+                    <!-- History items will be populated here -->
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Neural Configuration</h2>
+                    <div class="section-subtitle">Fine-tune analysis parameters</div>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h4>Audio Analysis</h4>
+                        <div class="setting-item">
+                            <label>MFCC Coefficients</label>
+                            <input type="range" class="cyber-slider" min="12" max="20" value="13" id="mfccCoeffs">
+                            <span class="setting-value">13</span>
+                        </div>
+                        <div class="setting-item">
+                            <label>Hop Length</label>
+                            <input type="range" class="cyber-slider" min="256" max="1024" value="512" id="hopLength">
+                            <span class="setting-value">512</span>
+                        </div>
+                        <div class="setting-item">
+                            <label>Sample Rate</label>
+                            <select class="cyber-select" id="sampleRate">
+                                <option value="22050">22.05 kHz</option>
+                                <option value="44100" selected>44.1 kHz</option>
+                                <option value="48000">48 kHz</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h4>Search Parameters</h4>
+                        <div class="setting-item">
+                            <label>Similarity Threshold</label>
+                            <input type="range" class="cyber-slider" min="0.1" max="1.0" step="0.1" value="0.7" id="similarityThreshold">
+                            <span class="setting-value">0.7</span>
+                        </div>
+                        <div class="setting-item">
+                            <label>Max Results</label>
+                            <input type="range" class="cyber-slider" min="5" max="50" value="20" id="maxResults">
+                            <span class="setting-value">20</span>
+                        </div>
+                        <div class="setting-item">
+                            <label>Search Mode</label>
+                            <select class="cyber-select" id="searchMode">
+                                <option value="local">Local Library Only</option>
+                                <option value="online">Online Databases</option>
+                                <option value="hybrid" selected>Hybrid Search</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h4>UI & Experience</h4>
+                        <div class="setting-item">
+                            <label>Theme</label>
+                            <select class="cyber-select" id="themeSelect">
+                                <option value="cyberpunk" selected>Cyberpunk</option>
+                                <option value="terminal">Terminal</option>
+                                <option value="synthwave">Synthwave</option>
+                                <option value="ice">Ice</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label>Sound Effects</label>
+                            <label class="cyber-toggle">
+                                <input type="checkbox" id="soundEffects" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <label>Auto-play Previews</label>
+                            <label class="cyber-toggle">
+                                <input type="checkbox" id="autoPreview">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="neural-loader">
+                <div class="loader-ring"></div>
+                <div class="loader-ring"></div>
+                <div class="loader-ring"></div>
+            </div>
+            <h3 id="loadingText">Initializing Neural Network...</h3>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span class="progress-text" id="progressText">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Fallback for external libraries
+        window.loadScript = function(src, callback) {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = callback;
+            script.onerror = function() {
+                console.warn('Failed to load:', src);
+                if (callback) callback();
+            };
+            document.head.appendChild(script);
+        };
+    </script>
+    
+    <!-- Load libraries with fallbacks -->
+    <script>
+        // Load WaveSurfer
+        loadScript('https://unpkg.com/wavesurfer.js@7.3.0/dist/wavesurfer.umd.min.js', function() {
+            console.log('WaveSurfer loaded successfully');
+        });
+        
+        // Load Chart.js
+        loadScript('https://cdn.jsdelivr.net/npm/chart.js', function() {
+            console.log('Chart.js loaded successfully');
+        });
+        
+        // Load Three.js
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js', function() {
+            console.log('Three.js loaded successfully');
+        });
+        
+        // Load GSAP
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js', function() {
+            console.log('GSAP loaded successfully');
+        });
+        
+        // Load Socket.IO
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js', function() {
+            console.log('Socket.IO loaded successfully');
+        });
+    </script>
+    <script src="js/utils/theme-manager.js"></script>
+    <script src="js/utils/sound-engine.js"></script>
+    <script src="js/utils/audio-processor.js"></script>
+    <script src="js/components/ui-components.js"></script>
+    <script src="js/components/visualizations.js"></script>
+    <script src="js/components/background-effects.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
